@@ -19,23 +19,23 @@ service = "/oddball-service"
 
 
 sessions = ["ab10", "ab11", "ab12", "ab13", "ab14", "ab15", "ab16", "ab17", "ab18", "ab19", "ab20", "ab21", "ab22"]
-users = ["a123", "b234", "c345", "d456", "e567", "mikeytest"]
+users = ["a111", "a123", "b234", "c345", "d456", "e567", "mikeytest"]
 subscriptions = ["eCK-1000", "eCK-1001", "eCK-1002", "eCK-1003", "eCK-1004", "eCK-1005"]
 sampleData = [
         '{ "case":"1000"  }',
-        '{ "browser":"chrome", "platform":"Win", "sessionId": "{sessionId}", "userId": "{userId}", "account": "{accountId}"  }',
-        '{ "browser":"firefox", "platform":"Win32", "sessionId": "{sessionId}", "userId": "{userId}", "account": "{accountId}"       }',
-        '{ "browser":"safari", "platform":"ios", "sessionId": "{sessionId}", "userId": "{userId}", "account": "{accountId}"       }',
-        '{ "browser":"safari", "platform":"Android", "sessionId": "{sessionId}", "userId": "{userId}", "account": "{accountId}"       }',
-        '{ "browser":"safari", "platform":"MacOS", "sessionId": "{sessionId}", "userId": "{userId}", "account": "{accountId}"       }',
-        '{ "browser":"chrome", "platform":"Win32", "screen": {"availWidth": 1600}, "sessionId": "{sessionId}", "userId": "{userId}", "account": "{accountId}"       }',
-        '{ "browser":"chrome", "platform":"Win32", "screen": {"availWidth": 550}, "sessionId": "{sessionId}", "userId": "{userId}", "account": "{accountId}"       }',
-        '{ "browser":"chrome", "platform":"Win64", "availWidth": 550, "sessionId": "{sessionId}", "userId": "{userId}", "account": "{accountId}"     }',
-        '{ "browser":"chrome", "platform":"Win64", "screen": {"availWidth": 500}, "sessionId": "{sessionId}", "userId": "{userId}", "account": "{accountId}"       }',
+        '{ "browser":"chrome", "platform":"Win", "sessionId": "{sessionId}", "userId": "{userId}", "accountId": "{accountId}"  }',
+        '{ "browser":"firefox", "platform":"Win32", "sessionId": "{sessionId}", "userId": "{userId}", "accountId": "{accountId}"       }',
+        '{ "browser":"safari", "platform":"ios", "sessionId": "{sessionId}", "userId": "{userId}", "accountId": "{accountId}"       }',
+        '{ "browser":"safari", "platform":"Android", "sessionId": "{sessionId}", "userId": "{userId}", "accountId": "{accountId}"       }',
+        '{ "browser":"safari", "platform":"MacOS", "sessionId": "{sessionId}", "userId": "{userId}", "accountId": "{accountId}"       }',
+        '{ "browser":"chrome", "platform":"Win32", "screen": {"availWidth": 1600}, "sessionId": "{sessionId}", "userId": "{userId}", "accountId": "{accountId}"       }',
+        '{ "browser":"chrome", "platform":"Win32", "screen": {"availWidth": 550}, "sessionId": "{sessionId}", "userId": "{userId}", "accountId": "{accountId}"       }',
+        '{ "browser":"chrome", "platform":"Win64", "availWidth": 550, "sessionId": "{sessionId}", "userId": "{userId}", "accountId": "{accountId}"     }',
+        '{ "browser":"chrome", "platform":"Win64", "screen": {"availWidth": 500}, "sessionId": "{sessionId}", "userId": "{userId}", "accountId": "{accountId}"       }',
         ]
 
-#clearData = {"ruleSet":"ECBase", "action":"clear"}
-#HttpCall.callHttpGET(uri, service+"/"+clearData["ruleSet"], clearData).strip()
+clearData = {"ruleSet":"ECBase", "action":"clear"}
+HttpCall.callHttpGET(uri, service+"/"+clearData["ruleSet"], clearData).strip()
 
 retrieveData = {"ruleSet":"ECBase"}
 fullUri = uri+service+"/"+retrieveData["ruleSet"]+"/bin/reload"
@@ -47,7 +47,7 @@ print
 
 
 print Date()
-for i in range(30):
+for i in range(1):
     for case in sampleData:
         data = {"ruleSet":"ECBase", "case":case.replace('{sessionId}', sessions[8 * i%len(sessions)]).replace('{userId}', users[i%len(users)]).replace('{accountId}', subscriptions[i%len(subscriptions)])}
         res=HttpCall.callHttpGET(uri, service+"/"+data["ruleSet"], data).strip()

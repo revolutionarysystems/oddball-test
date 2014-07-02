@@ -1,0 +1,78 @@
+{
+	"device": {
+		"platform": "Win32",
+		"screen": {
+			"availWidth": 1600,
+			"availHeight": 860,
+			"availTop": 0,
+			"availLeft": 0,
+			"pixelDepth": 24,
+			"colorDepth": 24,
+			"width": 1600,
+			"height": 900
+		},
+		"pixelRatio": 1
+	},
+	"browser": {
+		"vendor": "Google Inc.",
+		"vendorSub": "",
+		"product": "Gecko",
+		"productSub": "20030107",
+		"userAgent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36",
+		"mimeTypes": 65,
+		"plugins": 21,
+		"language": "en-US"
+	},
+	"page": {
+		"location": {
+			"ancestorOrigins": {
+				"length": 0
+			},
+			"origin": "http://localhost:1234",
+			"hash": "",
+			"search": "",
+			"pathname": "/",
+			"port": "1234",
+			"hostname": "localhost",
+			"host": "localhost:1234",
+			"protocol": "http:",
+			"href": "http://localhost:1234/"
+		},
+		"performance": {
+			"loadEventEnd": 0,
+			"loadEventStart": 0,
+			"domComplete": 0,
+			"domContentLoadedEventEnd": 1403523852155,
+			"domContentLoadedEventStart": 1403523852150,
+			"domInteractive": 1403523852150,
+			"domLoading": 1403523851949,
+			"responseEnd": 1403523851932,
+			"responseStart": 1403523851931,
+			"requestStart": 1403523851919,
+			"secureConnectionStart": 0,
+			"connectEnd": 1403523851899,
+			"connectStart": 1403523851899,
+			"domainLookupEnd": 1403523851899,
+			"domainLookupStart": 1403523851899,
+			"fetchStart": 1403523851899,
+			"redirectEnd": 0,
+			"redirectStart": 0,
+			"unloadEventEnd": 1403523851938,
+			"unloadEventStart": 1403523851937,
+			"navigationStart": 1403523851899
+		},
+		"title": "Home Page"
+	},
+	"connection": {
+		"bandwidth": "not supported",
+		"metered": "not supported"
+	},
+	"locale": {
+		"country": "us",
+		"lang": "en"
+	},
+	"accountId": "1234",
+	"userId": "f63f3961-33b8-4f59-8d99-52192ac697df",
+	"sessionId": "689f45eb-c8a2-433b-aa1c-94f07a8b07bf",
+	"domain": "localhost"
+}
