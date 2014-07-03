@@ -79,9 +79,12 @@ def sessions(account):
     return res
 
 
-def users(account):
+def users(account, recent=None):
     retrieveData = {"ruleSet":"ECBase"}
-    res = HttpCall.callHttpGET(uri, service+"/"+retrieveData["ruleSet"]+"/userId/", {"account":account}).strip()
+    params = {"account":account}
+    if recent!=None:
+        params["recent"]=recent
+    res = HttpCall.callHttpGET(uri, service+"/"+retrieveData["ruleSet"]+"/userId/", params).strip()
     return res
 
 def query1(account):
@@ -136,13 +139,13 @@ def show(casesStr):
 print "Cases"
 show(accountCases("revsys-master-account"))
 print "Sessions"
-sessions = sessions("echo-central-master-user")
+sessions = sessions("_all")
 for session in evalJSON(sessions):
     print "Session = ", session
-    show(sessionCases("echo-central-master-user", session))
+    show(sessionCases("_all", session))
 print "Users"
-users = users("echo-central-master-user")
-for user in evalJSON(users):
+userIds = users("echo-central-master-user")
+for user in evalJSON(userIds):
     print "User = ", user
     #show(userCases("echo-central-master-user", user))
 #print query1("eCK-1000")
@@ -160,6 +163,34 @@ show(queryPlatform("revsys-master-account", '"Win32"'))
 show(queryRecent("echo-central-master-account", 5))
 show(queryRecent("echo-central-master-user", 5))
 show(queryRecent("revsys-master-account", 5))
-#show(queryRecent("_all", 5))
-#print bins("eCK-1005")
-#print binCases("eCK-1005", "Mybin4")
+show(queryRecent("_all", 5))
+
+print "Users"
+userIds = users("_all")
+print
+for user in evalJSON(userIds):
+    print "User = ", user
+    show(userCases("_all", user))
+
+userIds = users("_all", "20")
+for user in evalJSON(userIds):
+    print "User = ", user
+userIds = users("_all", "5")
+for user in evalJSON(userIds):
+    print "User = ", user
+userIds = users("_all", "4")
+for user in evalJSON(userIds):
+    print "User = ", user
+userIds = users("_all", "3")
+for user in evalJSON(userIds):
+    print "User = ", user
+userIds = users("_all", "2")
+for user in evalJSON(userIds):
+    print "User = ", user
+userIds = users("_all", "1")
+for user in evalJSON(userIds):
+    print "User = ", user
+
+
+
+show(binCases("_all", "Android"))
