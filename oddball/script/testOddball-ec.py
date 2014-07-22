@@ -46,6 +46,12 @@ print fullUri
 res = HttpCall.callHttpGET(uri, service+"/"+retrieveData["ruleSet"]+"/bin/reload",{}).strip()
 print res
 
+fullUri = uri+service+"/transformer/clear"
+print fullUri
+res = HttpCall.callHttpGET(uri, service+"/transformer/clear",{}).strip()
+print res
+
+
 print
 
 
@@ -68,15 +74,34 @@ def sessionCases(account, session):
     res = HttpCall.callHttpGET(uri, service+"/"+retrieveData["ruleSet"]+"/sessionId/"+retrieveData["sessionId"], {"account":account}).strip()
     return res
 
-def userCases(account, user):
+def userCases(account, user, transformer=None):
     retrieveData = {"ruleSet":"ECBase", "userId":user}
-    res = HttpCall.callHttpGET(uri, service+"/"+retrieveData["ruleSet"]+"/userId/"+retrieveData["userId"], {"account":account}).strip()
+    params = {"account":account}
+    if transformer !=None:
+        params["transformer"]=transformer
+    res = HttpCall.callHttpGET(uri, service+"/"+retrieveData["ruleSet"]+"/userId/"+retrieveData["userId"], params).strip()
     return res
+
+def latestUserCase(account, user, transformer=None):
+    retrieveData = {"ruleSet":"ECBase", "userId":user}
+    params = {"account":account}
+    if transformer !=None:
+        params["transformer"]=transformer
+    res = HttpCall.callHttpGET(uri, service+"/"+retrieveData["ruleSet"]+"/userId/"+retrieveData["userId"]+"/latest", params).strip()
+    return "["+res+"]"
 
 def sessions(account):
     retrieveData = {"ruleSet":"ECBase"}
     res = HttpCall.callHttpGET(uri, service+"/"+retrieveData["ruleSet"]+"/sessionId/", {"account":account}).strip()
     return res
+
+def latestSessionCase(account, session, transformer=None):
+    params = {"account":account}
+    if transformer !=None:
+        params["transformer"]=transformer
+    retrieveData = {"ruleSet":"ECBase", "sessionId":session}
+    res = HttpCall.callHttpGET(uri, service+"/"+retrieveData["ruleSet"]+"/sessionId/"+retrieveData["sessionId"]+"/latest", params).strip()
+    return "["+res+"]"
 
 
 def users(account, recent=None):
@@ -114,14 +139,18 @@ def queryRecent(account, mins):
     print retrieveData["query"]
     res = HttpCall.callHttpGET(uri, service+"/"+retrieveData["ruleSet"]+"/query/", {"query":retrieveData["query"], "account":account}).strip()
     return res
+
 def bins(account):
     retrieveData = {"ruleSet":"ECBase"}
     res = HttpCall.callHttpGET(uri, service+"/"+retrieveData["ruleSet"]+"/bin/",{"account":account}).strip()
     return res
 
-def binCases(account, bin):
+def binCases(account, bin, transformer=None):
     retrieveData = {"ruleSet":"ECBase","bin":bin}
-    res = HttpCall.callHttpGET(uri, service+"/"+retrieveData["ruleSet"]+"/bin/"+retrieveData["bin"],{"account":account}).strip()
+    params = {"account":account}
+    if transformer !=None:
+        params["transformer"]=transformer
+    res = HttpCall.callHttpGET(uri, service+"/"+retrieveData["ruleSet"]+"/bin/"+retrieveData["bin"],params).strip()
     return res
 
 
@@ -136,61 +165,72 @@ def show(casesStr):
         print case
     print
 
-print "Cases"
-show(accountCases("revsys-master-account"))
-print "Sessions"
-sessions = sessions("_all")
-for session in evalJSON(sessions):
-    print "Session = ", session
-    show(sessionCases("_all", session))
-print "Users"
-userIds = users("echo-central-master-user")
-for user in evalJSON(userIds):
-    print "User = ", user
+#print "Cases"
+#show(accountCases("revsys-master-account"))
+#print "Sessions"
+#sessionIds = sessions("_all")
+#for sessionId in evalJSON(sessionIds):
+#    print "Session = ", sessionId
+#    show(sessionCases("_all", sessionId))
+#print "Users"
+#userIds = users("echo-central-master-user")
+#for user in evalJSON(userIds):
+#    print "User = ", user
     #show(userCases("echo-central-master-user", user))
 #print query1("eCK-1000")
 #print query2("eCK-1005")
 
-print "Windows"
+#print "Windows"
 #show(queryPlatform("echo-central-master-user", '"Win32"'))
-print "Linux"
-show(queryPlatform("echo-central-master-user", '{ "$regex": "Linux.*" }' ))
+#print "Linux"
+#show(queryPlatform("echo-central-master-user", '{ "$regex": "Linux.*" }' ))
 
-print "Windows - RevSys"
-show(queryPlatform("revsys-master-account", '"Win32"'))
+#print "Windows - RevSys"
+#show(queryPlatform("revsys-master-account", '"Win32"'))
 
 
-show(queryRecent("echo-central-master-account", 5))
-show(queryRecent("echo-central-master-user", 5))
-show(queryRecent("revsys-master-account", 5))
-show(queryRecent("_all", 5))
+#show(queryRecent("echo-central-master-account", 5))
+#show(queryRecent("echo-central-master-user", 5))
+#show(queryRecent("revsys-master-account", 5))
+#show(queryRecent("_all", 5))
+
+#print "Sessions"
+#sessionIds = sessions("_all")
+#print
+#for session in evalJSON(sessionIds):
+#    print "Session = ", session
+#    #show(sessionCases("_all", session))
+#    show(latestSessionCase("_all", session, transformer="summary.json"))
 
 print "Users"
 userIds = users("_all")
 print
 for user in evalJSON(userIds):
+    print
+    print "=============================================="
     print "User = ", user
-    show(userCases("_all", user))
+    print "=============================================="
+    show(userCases("_all", user, transformer="page.json"))
+    show(latestUserCase("_all", user, transformer=None))
+    show(latestUserCase("_all", user, transformer="summary.json"))
+#    show(latestUserCase("_all", user, transformer="performance.json"))
 
-userIds = users("_all", "20")
+print "Last 12 h"
+userIds = users("_all", "720")
 for user in evalJSON(userIds):
     print "User = ", user
-userIds = users("_all", "5")
+print "Last 1 h"
+userIds = users("_all", "60")
 for user in evalJSON(userIds):
     print "User = ", user
-userIds = users("_all", "4")
-for user in evalJSON(userIds):
-    print "User = ", user
-userIds = users("_all", "3")
-for user in evalJSON(userIds):
-    print "User = ", user
-userIds = users("_all", "2")
-for user in evalJSON(userIds):
-    print "User = ", user
-userIds = users("_all", "1")
+#userIds = users("_all", "20")
+#for user in evalJSON(userIds):
+#    print "User = ", user
+print "Last 10 m"
+userIds = users("_all", "10")
 for user in evalJSON(userIds):
     print "User = ", user
 
+#print bins("_all")
 
-
-show(binCases("_all", "Android"))
+#show(binCases("_all", "Android", transformer="summary.json"))
